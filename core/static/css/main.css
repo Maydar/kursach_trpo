@@ -109,6 +109,9 @@
     background-size: contain;
 }
 
+.print_action {
+    margin-top: 2rem;
+}
 
 .search {
     margin-top: 2rem;
@@ -149,4 +152,16 @@
 
 .hidden {
     display: none;
+}
+
+.test-edit {
+
+}
+
+.test-edit .test-edit__text-area {
+    height: 20rem;
+}
+
+.test-edit .test-edit__delete {
+    margin-left: 2rem;
 }

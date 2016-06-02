@@ -1,3 +1,10 @@
+from io import StringIO
+from io import BytesIO
+
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+
+from core.patterns.print import PrinterWeb, ProxyXLSPrinter, XLSPrinter
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -76,6 +83,7 @@ class TestView(LoginRequiredMixin, DetailView):
 
         return context
 
+
 class TestSearchView(FormView):
     pass
 
@@ -87,19 +95,36 @@ class StudentListView(ListView):
     def get_queryset(self):
         return User.objects.filter(groups__name__in=['student']).all()
 
+
 class StudentSearchView(FormView):
     pass
 
 
 class TestEditView(TemplateView):
-    pass
+    template_name = 'test/test_edit.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(TestEditView, self).get_context_data(**kwargs)
+        context['test'] = Test.objects.get(pk=self.kwargs.get('pk'))
+        return context
+
 
 class QuestionEditView(TemplateView):
     pass
 
 
-
-
 class TeacherView(TemplateView):
     pass
+
+
+@login_required
+def print_xlsx(request):
+    output = BytesIO()
+    printer = XLSPrinter()
+    output = printer.print(output)
+    output.seek(0)
+    response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=report.xlsx"
+
+    return response
 

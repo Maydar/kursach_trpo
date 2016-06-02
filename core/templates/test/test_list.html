@@ -26,6 +26,9 @@
                     <th>Автор</th>
                     <th>Дата создания</th>
                     <th></th>
+                    {% if request.user.is_superuser %}
+                        <th></th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -34,7 +37,12 @@
                         <td>{{ test.title }}</td>
                         <td>{{ test.user }}</td>
                         <td>{{ test.creation_date }}</td>
-                        <td><a href="{% url 'core:test' test.id %}">Пройти</a></td>
+                        {% if is_teacher %}
+                            <td><a href="{% url 'core:test_edit' test.id %}">Изменить</a></td>
+                        {% endif %}
+                        {% if is_student %}
+                            <td><a href="{% url 'core:test' test.id %}">Пройти</a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

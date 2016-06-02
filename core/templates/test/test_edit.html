@@ -1,0 +1,26 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Редактирование теста</h2>
+        <form class="row test-edit" method="post" action="{% url 'core:test_edit' test.id %}">
+            <div class="form__line">
+                <label for="id_title">Название</label>
+                <input type="text" name="title" value="{{ test.title }}" id="id_title">
+            </div>
+
+            <div class="form__line">
+                <label for="id_desc">Описание</label>
+                <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area">{{ test.description }}
+                </textarea>
+            </div>
+
+            <input class="button button-primary test-edit__save" type="submit" value="Сохранить">
+            <input class="button test-edit__delete" type="submit" value="Удалить">
+        </form>
+
+        <div class="question_list">
+            <h2>Вопросы</h2>
+        </div>
+    </div>
+{% endblock %}
