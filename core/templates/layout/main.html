@@ -1,0 +1,40 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'bower_components/skeleton/css/normalize.css' %}"/>
+    <link rel="stylesheet" href="{% static 'bower_components/skeleton/css/skeleton.css' %}"/>
+    <title>{% block title %}Тест{% endblock %}</title>
+</head>
+<body style='font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;'>
+    <section>
+        <header class="{% block header_class %}header{% endblock %}">
+            <div class="menu">
+                <div class="menu__item">
+                    <a href="{% url 'core:main' %}"
+                       class="link link_menu{% if current_url == 'main' %} link_menu-active {% endif %}">Главная</a>
+                </div>
+                <div class="menu__item">
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'core:logout' %}"
+                           class="link link_menu">Выход</a>
+                        {% else %}
+                        <a href="{% url 'core:auth' %}"
+                           class="link link_menu{% if current_url == 'auth' %} link_menu-active {% endif %}">Вход</a>
+                    {% endif %}
+
+                </div>
+            </div>
+        </header>
+        {% block content %}{% endblock %}
+        <footer>
+        </footer>
+    </section>
+</body>
+</html>

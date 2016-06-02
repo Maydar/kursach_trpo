@@ -1,0 +1,45 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="search">
+            <form action="{% url 'core:test_search' %}" method="post">
+                <input type="text" placeholder="Введите имя теста" class="u-full-width" name="title">
+                <div class="icon-wrapper">
+                    <i class="icon_search"></i>
+                </div>
+                <button type="submit" class="button-primary">
+                    Искать
+                </button>
+            </form>
+
+        </div>
+
+        {% include 'components/print.html' %}
+
+        <table class="test-table u-full-width">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Дата создания</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in test_list %}
+                    <tr>
+                        <td>{{ test.title }}</td>
+                        <td>{{ test.user }}</td>
+                        <td>{{ test.creation_date }}</td>
+                        <td><a href="{% url 'core:test' test.id %}">Пройти</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row test-brief">
+            <h2 class="test-brief__title">{{ test.title }}</h2>
+            <p class="test-brief__author"><b>Автор</b> &mdash; {{ test.user }}</p>
+            <p class="test-brief__date"><b>Дата создания</b> &mdash; {{ test.creation_date }}</p>
+            <section class="test-brief__desc">
+                <header><b>Описание</b></header>
+                <p>{{ test.description }}</p>
+            </section>
+            <input class="button button-primary test-brief__begin-test" type="submit" value="Начать">
+        </div>
+
+        <div class="test">
+
+        </div>
+    </div>
+{% endblock %}

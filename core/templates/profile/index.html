@@ -1,0 +1,96 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row profile">
+            <div class="profile__line" style="text-align: center">
+                <h2>Здравствуйте &mdash; {{ user.username }}</h2>
+            </div>
+            <div class="profile__line" style="text-align: center">
+                <div class="actions-header">
+                    <h3>Ваши возможности</h3>
+                </div>
+            </div>
+
+            <div class="profile__line">
+                {% if is_teacher %}
+                    <div class="actions twelve column">
+                        <div class="action four columns">
+                            <div class="action__line action__icon icon_test"></div>
+                            <div class="action__line">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Accusamus alias animi atque dolores esse et impedit in inventore iusto,
+                                magni nam non qui quia quibusdam recusandae, sequi tempora vitae voluptates.
+                            </div>
+
+                            <div class="action__line">
+                                <a href="{% url 'core:test_list' %}" class="button">Работа с тестами</a>
+                            </div>
+                        </div>
+
+                        <div class="action four columns">
+                            <div class="action__line action__icon icon_grade"></div>
+                            <div class="action__line">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Accusamus alias animi atque dolores esse et impedit in inventore iusto,
+                                magni nam non qui quia quibusdam recusandae, sequi tempora vitae voluptates.
+                            </div>
+
+                            <div class="action__line">
+                                <a href="{% url 'core:students_all' %}" class="button">Студенты</a>
+                            </div>
+                        </div>
+
+                        <div class="action four columns">
+                            <div class="action__line action__icon icon_points"></div>
+                            <div class="action__line">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Accusamus alias animi atque dolores esse et impedit in inventore iusto,
+                                magni nam non qui quia quibusdam recusandae, sequi tempora vitae voluptates.
+                            </div>
+
+                            <div class="action__line">
+                                <a href="{% url 'core:scores_all' %}" class="button">Оценки</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if is_student %}
+                    <div class="actions twelve column">
+
+                    <div class="action six columns">
+                            <div class="action__line action__icon icon_pass-test"></div>
+                            <div class="action__line">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Accusamus alias animi atque dolores esse et impedit in inventore iusto,
+                                magni nam non qui quia quibusdam recusandae, sequi tempora vitae voluptates.
+                            </div>
+
+                            <div class="action__line">
+                                <a href="{% url 'core:test_list' %}" class="button">Пройти тест</a>
+                            </div>
+                        </div>
+                        <div class="action six columns">
+                            <div class="action__line action__icon icon_diploma "></div>
+                            <div class="action__line">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Accusamus alias animi atque dolores esse et impedit in inventore iusto,
+                                magni nam non qui quia quibusdam recusandae, sequi tempora vitae voluptates.
+                            </div>
+
+                            <div class="action__line">
+                                <a href="{% url 'core:scores' request.user.id %}" class="button">Посмотреть результаты</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

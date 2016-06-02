@@ -1,0 +1,42 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <form class="form form_auth four columns offset-by-four"
+                  action="{% url 'core:auth' %}" method="post">
+
+                <div class="form__line">
+                    <h2>Authorization</h2>
+                </div>
+
+                {% csrf_token %}
+
+                <div class="form__line">
+                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                    <input class="u-full-width" type="text"
+                           placeholder="Your login"
+                           id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}">
+                </div>
+                <div class="form__line">
+                    <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+                    <input class="u-full-width" type="password"
+                           placeholder="Your password"
+                           id="{{ form.password.id_for_label }}" name="{{ form.password.html_name }}">
+                </div>
+                {% if form.errors %}
+                    <div class="form__error form_error-auth">
+                        <p>Неправильный логин или пароль</p>
+                    </div>
+                {% endif %}
+
+                <div class="form__line">
+                    <button class="button-primary" type="submit">Log in</button>
+                </div>
+
+
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

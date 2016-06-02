@@ -1,0 +1,38 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="search">
+            <form action="{% url 'core:student_search' %}" method="post">
+                <input type="text" placeholder="Введите имя студента" class="u-full-width" name="username">
+                <div class="icon-wrapper">
+                    <i class="icon_search"></i>
+                </div>
+                <button type="submit" class="button-primary">
+                    Искать
+                </button>
+            </form>
+
+        </div>
+
+        <table class="test-table u-full-width">
+            <thead>
+                <tr>
+                    <th>Логин</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in user_list %}
+                    <tr>
+                        <td>{{ student.username }}</td>
+                        <td><a href="{% url 'core:scores' student.id %}">Результаты по тестам</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
