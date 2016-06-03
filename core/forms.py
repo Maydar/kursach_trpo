@@ -1,4 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
+from core.domains.test.forms import *
+from core.domains.question.forms import *
+from core.domains.article.forms import *
 
 
 class UserLoginForm(AuthenticationForm):

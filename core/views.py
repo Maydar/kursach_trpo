@@ -4,7 +4,7 @@ from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 
-from core.patterns.print import PrinterWeb, ProxyXLSPrinter, XLSPrinter
+from core.patterns.print import XLSPrinter as PrinterWeb
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -54,10 +54,10 @@ class LogoutView(RedirectView):
         logout(self.request)
         return super(LogoutView, self).get_redirect_url(*args, **kwargs)
 
+
 class TestListView(LoginRequiredMixin, ListView):
     model = Test
     template_name = 'test/test_list.html'
-
 
 
 class TestResultsAllView(LoginRequiredMixin, ListView):
@@ -108,6 +108,9 @@ class TestEditView(TemplateView):
         context['test'] = Test.objects.get(pk=self.kwargs.get('pk'))
         return context
 
+class TestCreateView(TemplateView):
+    template_name = 'test/test_create.html'
+
 
 class QuestionEditView(TemplateView):
     pass
@@ -120,7 +123,7 @@ class TeacherView(TemplateView):
 @login_required
 def print_xlsx(request):
     output = BytesIO()
-    printer = XLSPrinter()
+    printer = PrinterWeb()
     output = printer.print(output)
     output.seek(0)
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")

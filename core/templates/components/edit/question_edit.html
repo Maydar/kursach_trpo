@@ -1,0 +1,20 @@
+<form action="#" method="post" class="question-form" ">
+    <div class="form__line">
+        <label for="id_title">Название</label>
+        <input type="text" name="title" id="id_title">
+    </div>
+
+    <div class="form__line">
+
+        <label for="id_text">Текст</label>
+        <textarea name="text" id="id_text"></textarea>
+    </div>
+
+    <div class="form__line">
+        <b>Варианты ответа</b>
+        {% include 'components/edit/answer_edit.html' %}
+    </div>
+
+    <input type="submit" class="button-primary" value="Сохранить">
+    <input type="submit" class="button test-edit__delete" value="Удалить">
+</form>

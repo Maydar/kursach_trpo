@@ -21,6 +21,13 @@
 
         <div class="question_list">
             <h2>Вопросы</h2>
+            {% for foo in 'vasya' %}
+                {% include 'components/edit/question_edit.html' %}
+            {% endfor %}
         </div>
     </div>
+{% endblock %}
+
+{% block requirejsconfig %}
+    {% include 'components/js.html' with name='test' %}
 {% endblock %}

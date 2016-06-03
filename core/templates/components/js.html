@@ -1,0 +1,5 @@
+{% load staticfiles %}
+{% with 'dist/js/configs/'|add:name|add:'.js' as path %}
+    <script type="text/javascript" src="{% static 'bower_components/requirejs/require.js' %}"
+            data-main="{% static path %}"></script>
+{% endwith %}

@@ -1,0 +1,20 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Создание теста</h2>
+        <form class="row test-edit" method="post" action="{% url 'core:test_create'  %}">
+            <div class="form__line">
+                <label for="id_title">Название</label>
+                <input type="text" name="title"  id="id_title">
+            </div>
+
+            <div class="form__line">
+                <label for="id_desc">Описание</label>
+                <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area"></textarea>
+            </div>
+
+            <input class="button button-primary test-edit__save" type="submit" value="Добавить">
+        </form>
+    </div>
+{% endblock %}

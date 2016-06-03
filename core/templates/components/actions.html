@@ -1,0 +1,12 @@
+<div class="actions_test">
+    {% if print %}
+        <div class="actions__item action_item-print">
+            <i class="icon_action icon_printer"></i>
+            <a href="{% url 'core:print_xlsx' %}" class="link_test">Распечатать результат</a>
+        </div>
+    {% endif %}
+    <div class="actions__item action_item-add">
+        <i class="icon_action icon_plus"></i>
+        <a href="{% url 'core:test_create' %}" class="link_create">Создать тест</a>
+    </div>
+</div>

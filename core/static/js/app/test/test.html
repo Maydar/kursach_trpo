@@ -1,0 +1,40 @@
+<div class="section-question">
+    <div class="row">
+        <div class="section-question__current-number">
+            <p>Вопрос <%= number %></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section-question__title">
+            <h3><%= title %></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section-question__desc">
+            <p><%= text %></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="section-question__answers four column offset-by-three">
+           <% _.each(answers, function(answer, index) { %>
+                <div class="section-answer">
+                    <div class="section-answer__text"><%= answer.text %></div>
+                </div>
+            <%});%>
+        </div>
+    </div>
+    <div class="row" style="margin-top: 10rem">
+        <div class="section-question__controls four column offset-by-five">
+            <div class="control control_prev">
+                <a href="#">Назад</a>
+            </div>
+            <div class="control control_next">
+                <a href="#">Вперед</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

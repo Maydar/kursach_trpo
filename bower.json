@@ -14,5 +14,12 @@
     "core/static/bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "jquery": "^2.2.4",
+    "text": "requirejs/text#^2.0.15",
+    "lodash": "^4.13.1",
+    "requirejs": "^2.2.0",
+    "requirejs-plugins": "^1.0.3"
+  }
 }
