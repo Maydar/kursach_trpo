@@ -14,7 +14,8 @@
 
             <div class="profile__line">
                 {% if is_teacher %}
-                    <div class="actions twelve column">
+                    <div class="row">
+                        <div class="actions twelve column">
                         <div class="action four columns">
                             <div class="action__line action__icon icon_test"></div>
                             <div class="action__line">
@@ -54,7 +55,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="actions twelve column">
+                    </div>
+                    <div class="row">
+                        <div class="actions twelve column">
                         <div class="action four columns">
                             <div class="action__line action__icon icon_file "></div>
                             <div class="action__line">
@@ -68,10 +71,13 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+
                 {% endif %}
 
                 {% if is_student %}
-                    <div class="actions twelve column">
+                    <div class="row">
+                        <div class="actions twelve column">
 
                         <div class="action four columns">
                             <div class="action__line action__icon icon_pass-test"></div>
@@ -110,10 +116,8 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 {% endif %}
-
-
-
             </div>
         </div>
     </div>

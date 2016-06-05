@@ -66,7 +66,7 @@ function hideFormError(input) {
         .val('')
 }
 
-require(['jquery', 'cookies'], function ($, Cookies) {
+require(['jquery', 'cookies'], ($, Cookies) => {
     $.ajaxSetup({
         headers: { "X-CSRFToken": Cookies.get("csrftoken") }
     });

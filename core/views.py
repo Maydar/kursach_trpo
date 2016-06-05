@@ -83,13 +83,12 @@ class TestView(LoginRequiredMixin, DetailView):
     model = Test
     template_name = 'test/test.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(TestView, self).get_context_data(**kwargs)
 
-        return context
+class TestCreateView(LoginRequiredMixin, AjaxFormView):
+    pass
 
 
-class TestSearchView(FormView):
+class TestSearchView(LoginRequiredMixin, AjaxFormView):
     pass
 
 

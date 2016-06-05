@@ -1,6 +1,6 @@
 require(['./config'], function () {
    require(['jquery', 'lodash', 'utils/composite', 'text!app/test/test.html'
-   ], function ($, _, Composite, TestTemplate) {
+   ], ($, _, Composite, TestTemplate) => {
        const
            $beginTest = $('.test-brief__begin-test'),
            $testWrapper = $('.test'),
