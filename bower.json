@@ -20,6 +20,7 @@
     "text": "requirejs/text#^2.0.15",
     "lodash": "^4.13.1",
     "requirejs": "^2.2.0",
-    "requirejs-plugins": "^1.0.3"
+    "requirejs-plugins": "^1.0.3",
+    "js-cookie": "^2.1.2"
   }
 }

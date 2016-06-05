@@ -1,0 +1,41 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="search">
+            <form action="{% url 'core:student_search' %}" method="post">
+                <input type="text" placeholder="Введите название статьи" class="u-full-width" name="title">
+                <div class="icon-wrapper">
+                    <i class="icon_search"></i>
+                </div>
+                <button type="submit" class="button-primary">
+                    Искать
+                </button>
+            </form>
+        </div>
+
+        <table class="test-table u-full-width">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Автор</th>
+                    <th>Дата создания</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in article_list %}
+                    <tr>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.user }}</td>
+                        <td>{{ article.publish_date }}</td>
+                        <td><a href="{% url 'core:article_detail'  article.id %}">Посмотреть</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

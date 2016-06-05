@@ -3,19 +3,24 @@ from io import BytesIO
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.views.generic import TemplateView, RedirectView, ListView, DetailView
+from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView
 
+from core.base import AjaxFormView
+from core.domains.article.models import Article
 from core.patterns.print import XLSPrinter as PrinterWeb
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
+from django.http import JsonResponse
 
 # Create your views here.
-from django.views.generic import FormView, TemplateView, ListView, DetailView, RedirectView
+
 
 from core.domains.test.models import Test, TestResult
-from core.forms import UserLoginForm
+from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -118,6 +123,54 @@ class QuestionEditView(TemplateView):
 
 class TeacherView(TemplateView):
     pass
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'article/article_details.html'
+
+
+class ArticleCreateView(LoginRequiredMixin, AjaxFormView):
+    form_class = ArticleCreateForm
+    template_name = 'article/article_create.html'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+        return kwargs
+
+
+class ArticleEditView(LoginRequiredMixin, AjaxFormView, BaseUpdateView):
+    model = Article
+    fields = ['title', 'text']
+    template_name = 'article/article_edit.html'
+
+
+class ArticleDeleteView(LoginRequiredMixin, AjaxFormView, BaseDeleteView):
+    success_url = '/'
+    model = Article
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.object.user == self.request.user or self.request.user.is_superuser:
+            self.object.delete()
+            return JsonResponse({'status': 'OK'})
+        else:
+            raise Http404('Article not exist')
+
+class ArticleListView(ListView):
+    model = Article
+    template_name = 'article/article_list.html'
+
+    def get_queryset(self):
+        if self.kwargs.get('author_id'):
+            user= User.objects.get(pk=self.kwargs.get('author_id'))
+            self.template_name = 'article/article_list_edit.html'
+            return Article.objects.filter(user=user).all()
+        else:
+            return Article.objects.all()
 
 
 @login_required

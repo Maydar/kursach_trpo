@@ -2,7 +2,8 @@ from django.conf.urls import url
 
 from core import views
 from core.views import AuthView, ProfileView, TestListView, TestView, LogoutView, TestResultsView, StudentListView, \
-    TestResultsAllView, StudentSearchView, TestSearchView, TestEditView, TestCreateView
+    TestResultsAllView, StudentSearchView, TestSearchView, TestEditView, TestCreateView, ArticleListView, \
+    ArticleDetailView, ArticleCreateView, ArticleEditView, ArticleDeleteView
 
 urlpatterns = [
     url(r'^$', ProfileView.as_view(), name='main'),
@@ -22,6 +23,14 @@ urlpatterns = [
 
     url(r'^student/all/$', StudentListView.as_view(), name='students_all'),
     url(r'^student_search/$', StudentSearchView.as_view(), name='student_search'),
+
+    url(r'^article/(?P<pk>\d+)/$', ArticleDetailView.as_view(), name='article_detail'),
+    url(r'^article/create/$', ArticleCreateView.as_view(), name='article_create'),
+    url(r'^article/edit/(?P<pk>\d+)$', ArticleEditView.as_view(), name='articles_edit'),
+    url(r'^article/delete/(?P<pk>\d+)$', ArticleDeleteView.as_view(), name='article_delete'),
+
+    url(r'^article/all/(?P<author_id>\d+)$', ArticleListView.as_view(), name='articles_by_user'),
+    url(r'^article/all/$', ArticleListView.as_view(), name='articles_all'),
 
 
 

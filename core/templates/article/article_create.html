@@ -1,0 +1,38 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Создание статьи</h2>
+        <form class="row test-edit" method="post" action="{% url 'core:article_create'  %}" id="article">
+            {% csrf_token %}
+            <div class="form__line">
+                <label for="id_title">Название</label>
+                <input type="text" name="title"  id="id_title" class="js-input">
+                <div class="error hidden" id="error_title">
+                    <p class="js-error-text error__text"></p>
+                </div>
+            </div>
+
+            <div class="form__line">
+                <label for="id_desc">Текст</label>
+                <textarea name="text" id="id_desc" class="u-full-width test-edit__text-area js-input" ></textarea>
+                <div class="error hidden" id="error_text">
+                    <p class="js-error-text error__text"></p>
+                </div>
+            </div>
+
+            <input class="button button-primary test-edit__save" type="submit" value="Добавить">
+        </form>
+
+        <div class="message_success hidden">
+            <h3>Успех!</h3>
+            <p>Статья успешно создана.</p>
+            <p><a href="{% url 'core:articles_by_user' request.user.id %}" class="button button-primary">К списку статей</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block requirejsconfig %}
+    {% include 'components/js.html' with name='article' %}
+{% endblock %}

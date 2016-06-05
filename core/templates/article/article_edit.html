@@ -1,0 +1,45 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Редактирование статьи</h2>
+        <form class="row test-edit" method="post" action="{% url 'core:articles_edit' article.id %}" id="article">
+            {% csrf_token %}
+            <div class="form__line">
+                <label for="id_title">Название</label>
+                <input type="text" name="title" value="{{ article.title }}" id="id_title" class="js-input">
+                <div class="error hidden" id="error_title">
+                    <p class="js-error-text error__text"></p>
+                </div>
+            </div>
+
+            <div class="form__line">
+                <label for="id_desc">Текст</label>
+                <textarea name="text" id="id_desc" class="js-input u-full-width test-edit__text-area">{{ article.text }}</textarea>
+                <div class="error hidden" id="error_text">
+                    <p class="js-error-text error__text"></p>
+                </div>
+            </div>
+
+            <input class="button button-primary test-edit__save" type="submit" value="Сохранить">
+            <a class="button test-edit__delete js-delete" href="{% url 'core:article_delete' article.id %}">Удалить</a>
+        </form>
+
+        <div class="message_success hidden">
+            <h3>Успех!</h3>
+            <p>Статья успешно сохранена.</p>
+            <p><a href="{% url 'core:articles_by_user' request.user.id %}" class="button button-primary">К списку статей</a>
+            </p>
+        </div>
+        <div class="message_success-delete hidden">
+            <h3>Успех!</h3>
+            <p>Статья успешно удалена.</p>
+            <p><a href="{% url 'core:articles_by_user' request.user.id %}" class="button button-primary">К списку статей</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block requirejsconfig %}
+    {% include 'components/js.html' with name='article' %}
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import ModelAdmin
 
+from core.domains.article.models import Article
 from core.domains.test.models import Test, TestResult
 
 
@@ -15,3 +16,4 @@ class TestResultAdmin(ModelAdmin):
 
 admin.site.register(Test, TestAdmin)
 admin.site.register(TestResult, TestResultAdmin)
+admin.site.register(Article )

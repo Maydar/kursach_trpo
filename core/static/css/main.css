@@ -1,13 +1,12 @@
 .header {
     height: 6rem;
-    background-color: #ECEFF1;
+    background-color: #185F8D;
 }
 
 .menu {
-    float: right;
 }
 .menu .menu__item {
-    display: inline-block;
+    float: right;
     margin-left: 3rem;
 }
 
@@ -18,10 +17,7 @@
 .link_menu {
     font-size: 3rem;
     text-decoration: none;
-}
-
-.link_menu-active {
-    color: black;
+    color: white;
 }
 
 .link_test {
@@ -65,37 +61,43 @@
     display: inline-block;
 }
 
-.icon_pass-test {
+.icon_pass-test,
+.icon_diploma,
+.icon_file,
+.icon_test,
+.icon_grade,
+.icon_points
+{
     height: 20rem;
     width: 20rem;
+}
+
+.icon_pass-test {
     background-image: url(../svg/pencil-1.svg);
     background-size: contain;
 }
 
 .icon_diploma {
-    height: 20rem;
-    width: 20rem;
     background-image: url(../svg/diploma-1.svg);
     background-size: contain;
 }
 
+.icon_file {
+    background-image: url(../svg/file.svg);
+    background-size: contain;
+}
+
 .icon_test {
-    height: 20rem;
-    width: 20rem;
     background-image: url(../svg/test.svg);
     background-size: contain;
 }
 
 .icon_grade {
-    height: 20rem;
-    width: 20rem;
     background-image: url(../svg/graduate.svg);
     background-size: contain;
 }
 
 .icon_points {
-    height: 20rem;
-    width: 20rem;
     background-image: url(../svg/trophy.svg);
     background-size: contain;
 }
@@ -228,4 +230,8 @@
 
 .answer-variant__add {
     margin-left: 1rem;
+}
+
+.error__text {
+    color: red;
 }
