@@ -1,8 +1,7 @@
 bower_components
 node_modules
 .idea
-*.pyc
-*.pyo
-
 __pycache__/
-*.py[cod]
+**/.py[cod]
+*$py.class
+**/.pyc
