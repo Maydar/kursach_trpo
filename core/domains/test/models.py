@@ -12,6 +12,15 @@ class Test(models.Model):
 
     total_points = models.IntegerField("Макс. кол-во баллов", default=100)
 
+    def get_total_points(self):
+        return self.total_points
+
+    def get_title(self):
+        return self.title
+
+    def get_creation_date(self):
+        return self.creation_date
+
     class Meta:
         verbose_name = "Тест"
         verbose_name_plural = "Тесты"

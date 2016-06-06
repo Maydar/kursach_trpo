@@ -4,6 +4,7 @@
     <div class="container">
         <h2>Создание теста</h2>
         <form class="row test-edit" method="post" action="{% url 'core:test_create'  %}">
+            {% csrf_token %}
             <div class="form__line">
                 <label for="id_title">Название</label>
                 <input type="text" name="title"  id="id_title">
@@ -17,4 +18,8 @@
             <input class="button button-primary test-edit__save" type="submit" value="Добавить">
         </form>
     </div>
+{% endblock %}
+
+{% block requirejsconfig %}
+    {% include 'components/js.html' with name='test' %}
 {% endblock %}

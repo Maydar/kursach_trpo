@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 
-from core.domains.question.models import Question
+from core.domains.question.models import Question, TextQuestion
 
 
-class QuestionForm(ModelForm):
+class TextQuestionForm(ModelForm):
     class Meta:
-        model = Question
-        fields = ['title', 'description']
+        model = TextQuestion
+        fields = ['title', 'text']

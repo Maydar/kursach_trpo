@@ -1,0 +1,26 @@
+<div class="data-field">
+    <div class="form__line">
+        {% if field.label %}
+            <div class="form__label {{ labelClass }}">
+                {% if field.field.required %}
+                    <label class="form__label-text" for="{{ field.id_for_label }}">{{ field.label }}
+                        <span class="star-required">*</span></label>
+                {% else %}
+                    <label class="form__label-text" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <input type="{% if field_type != None %}{{ field_type }}{% else %}text{% endif %}"
+               id="{{ field.id_for_label }}"
+               name="{{ field.html_name }}"{% if field.value != None %}
+               value="{{ field.value }}"{% endif %}
+               class="input form__input">
+
+        {% with field.errors|first as error %}
+            <div class="error {% if not error %}hidden{% endif %}" id="error_{{ field.html_name }}">
+                <p class="js-error-text error__text">{{ error }}</p>
+            </div>
+        {% endwith %}
+    </div>
+</div>

@@ -2,12 +2,16 @@ from io import StringIO
 from io import BytesIO
 
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
+from django.utils import timezone
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView
-from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView
+from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView, CreateView
 
 from core.base import AjaxFormView
 from core.domains.article.models import Article
+from core.domains.test.forms import EditTestForm
+from core.domains.test.gateways import TestGateway
 from core.patterns.print import XLSPrinter as PrinterWeb
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -84,9 +88,6 @@ class TestView(LoginRequiredMixin, DetailView):
     template_name = 'test/test.html'
 
 
-class TestCreateView(LoginRequiredMixin, AjaxFormView):
-    pass
-
 
 class TestSearchView(LoginRequiredMixin, AjaxFormView):
     pass
@@ -104,24 +105,34 @@ class StudentSearchView(FormView):
     pass
 
 
-class TestEditView(TemplateView):
+class TestEditView(LoginRequiredMixin, AjaxFormView):
     template_name = 'test/test_edit.html'
+    form_class = EditTestForm
 
-    def get_context_data(self, **kwargs):
-        context = super(TestEditView, self).get_context_data(**kwargs)
-        context['test'] = Test.objects.get(pk=self.kwargs.get('pk'))
-        return context
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['test_instance'] = Test.objects.get(pk=self.kwargs.get('pk'))
+        return kwargs
 
-class TestCreateView(TemplateView):
+
+class TestCreateView(CreateView):
+    model = Test
+    fields = ['title', 'description']
+    success_url = reverse_lazy('test_create')
+
+    def form_valid(self, form):
+        test = TestGateway(creation_date=timezone.now,
+                           user_id=form.cleaned_data['user_id'],
+                           title=form.cleaned_data['title'],
+                           description=form.cleaned_data['description'],
+                           total_points=100)
+        test.save()
+        return HttpResponseRedirect(self.success_url)
+
+
+class TestCreatePlainView(TemplateView):
     template_name = 'test/test_create.html'
 
-
-class QuestionEditView(TemplateView):
-    pass
-
-
-class TeacherView(TemplateView):
-    pass
 
 
 class ArticleDetailView(DetailView):

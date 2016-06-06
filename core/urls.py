@@ -3,7 +3,7 @@ from django.conf.urls import url
 from core import views
 from core.views import AuthView, ProfileView, TestListView, TestView, LogoutView, TestResultsView, StudentListView, \
     TestResultsAllView, StudentSearchView, TestSearchView, TestEditView, TestCreateView, ArticleListView, \
-    ArticleDetailView, ArticleCreateView, ArticleEditView, ArticleDeleteView
+    ArticleDetailView, ArticleCreateView, ArticleEditView, ArticleDeleteView, TestCreatePlainView
 
 urlpatterns = [
     url(r'^$', ProfileView.as_view(), name='main'),
@@ -14,7 +14,7 @@ urlpatterns = [
 
     url(r'^test_search/$', TestSearchView.as_view(), name='test_search'),
     url(r'^test_edit/(?P<pk>\d+)$', TestEditView.as_view(), name='test_edit'),
-    url(r'^test_create/', TestCreateView.as_view(), name='test_create'),
+    url(r'^test_create/', TestCreatePlainView.as_view(), name='test_create'),
 
     url(r'^scores/all/$', TestResultsAllView.as_view(), name='scores_all'),
     url(r'^scores/(?P<student_id>\d+)/$', TestResultsView.as_view(), name='scores'),

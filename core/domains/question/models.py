@@ -7,7 +7,6 @@ from core.domains.test.models import Test
 class Question(models.Model):
     test = models.ForeignKey(Test, verbose_name="Тест")
     title = models.CharField("Заголовок вопроса", max_length=255)
-    description = models.TextField("Описание вопроса", default='')
 
 
 class TextQuestion(Question):

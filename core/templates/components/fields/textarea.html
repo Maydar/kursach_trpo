@@ -1,0 +1,21 @@
+<div class="form__line">
+    {% if field.label %}
+        <div class="form__label {{ labelClass }}">
+            {% if field.field.required %}
+                <label class="form__label-text" for="{{ field.id_for_label }}">{{ field.label }}
+                    <span class="star-required">*</span></label>
+            {% else %}
+                <label class="form__label-text" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% endif %}
+        </div>
+    {% endif %}
+    <textarea id="{{ field.id_for_label }}" name="{{ field.html_name }}"
+              {% if rows %}rows="{{ rows }}"{% endif %}
+              class="input form__input u-full-width test-edit__text-area">{% if field.value != None %}{{ field.value }}{% endif %}</textarea>
+
+    {% with field.errors|first as error %}
+    <div class="error {% if not error %}hidden{% endif %}" id="error_{{ field.html_name }}">
+        <p class="js-error-text error__text">{{ error }}</p>
+    </div>
+    {% endwith %}
+</div>

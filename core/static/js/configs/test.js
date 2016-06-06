@@ -30,12 +30,9 @@ require(['./config'], function () {
        $addAnswer.click((event) => {
            event.preventDefault();
            const $target = $(event.target);
-           if ($target.parents('.form__line').find('.answer-variant').length > 3) {
-               return;
-           } else {
+           if ($target.parents('.form__line').find('.answer-variant').length > 3) {} else {
                $target.parent().after($target.parent().clone(true));
            }
-
        });
    });
 });

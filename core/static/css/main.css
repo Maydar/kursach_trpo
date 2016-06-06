@@ -172,6 +172,13 @@
     color: red;
 }
 
+
+.form__input {
+    background: transparent;
+
+    resize: none;
+}
+
 .hidden {
     display: none;
 }
@@ -235,3 +242,8 @@
 .error__text {
     color: red;
 }
+
+.star-required {
+    color: red;
+}
+

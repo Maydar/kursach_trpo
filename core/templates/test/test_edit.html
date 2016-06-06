@@ -3,17 +3,10 @@
 {% block content %}
     <div class="container">
         <h2>Редактирование теста</h2>
-        <form class="row test-edit" method="post" action="{% url 'core:test_edit' test.id %}">
-            <div class="form__line">
-                <label for="id_title">Название</label>
-                <input type="text" name="title" value="{{ test.title }}" id="id_title">
-            </div>
+        <form class="row test-edit" method="post" action="{% url 'core:test_edit' form.test.instance.id %}">
+            {% include 'components/fields/charfield.html' with field=form.test.title %}
 
-            <div class="form__line">
-                <label for="id_desc">Описание</label>
-                <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area">{{ test.description }}
-                </textarea>
-            </div>
+            {% include 'components/fields/textarea.html' with field=form.test.description %}
 
             <input class="button button-primary test-edit__save" type="submit" value="Сохранить">
             <input class="button test-edit__delete" type="submit" value="Удалить">
@@ -21,8 +14,8 @@
 
         <div class="question_list">
             <h2>Вопросы</h2>
-            {% for foo in 'vasya' %}
-                {% include 'components/edit/question_edit.html' %}
+            {% for form_id, q_form in form.questions.items %}
+                {% include 'components/edit/question_edit.html' with question=q_form id=form_id %}
             {% endfor %}
         </div>
     </div>

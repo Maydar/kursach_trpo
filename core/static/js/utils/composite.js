@@ -1,29 +1,35 @@
 'use strict';
 
 define(['jquery'], function ($) {
-    class Test {
+    class Test extends Field {
         constructor(fields, questions) {
-            this.fields = fields;
+            super("test", "test", {});
             this.questions = questions;
         }
-    
         add(object) {
             if (object instanceof Question) {
                 this.questions.append(object);
             } else if (object instanceof Field) {
                 this.fields.append(object);
-                console.log("");
             }
         }
         
         print() {
-            
+            this.questions.forEach((item, i, arr) => {
+                item.print();
+            })
         }
     }
 
-    class Question {
+    class Question extends Field {
         constructor(fields) {
-            this.fields = fields;
+            super("question", "question", {});
+        }
+
+        print() {
+            this.fields.forEach((item, i, arr) => {
+                item.print(this.$el)
+            });
         }
     }
     
@@ -32,6 +38,10 @@ define(['jquery'], function ($) {
             this.type = type;
             this.name = name;
             this.options = options;
+        }
+
+        print($el) {
+            $el.append(this);
         }
     }
 

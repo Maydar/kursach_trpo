@@ -24,3 +24,27 @@ class AuthRedirectMixin(object):
             return redirect('lk:index')
 
         return super(AuthRedirectMixin, self).dispatch(request, *args, **kwargs)
+
+
+class BaseFormSet(object):
+
+    def __init__(self):
+        self.errors = dict()
+
+    def _is_valid_set(self, forms, error_key):
+        result = True
+        empty_keys = list()
+
+        for key, value in forms.iteritems():
+            if not value.is_filled():
+                empty_keys.append(key)
+            elif not value.is_valid():
+                result = False and result
+                if error_key not in self.errors:
+                    self.errors[error_key] = dict()
+                self.errors[error_key][key] = value.errors
+
+        for key in empty_keys:
+            forms.pop(key)
+
+        return result

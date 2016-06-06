@@ -3,8 +3,19 @@
 {% block content %}
 
     <div class="container">
+        <div class="search">
+            <form action="{% url 'core:test_search' %}" method="post">
+                <input type="text" placeholder="Введите имя теста" class="u-full-width" name="title">
+                <div class="icon-wrapper">
+                    <i class="icon_search"></i>
+                </div>
+                <button type="submit" class="button-primary">
+                    Искать
+                </button>
+            </form>
+        </div>
 
-        {% include 'components/actions.html' %}
+        {% include 'components/actions.html' with print=True %}
 
         <table class="test-table u-full-width">
             <thead>
