@@ -34,7 +34,7 @@
                         <td>{{ result.user }}</td>
                         <td>{{ result.test.creation_date }}</td>
                         <td>{{ result.points }}/{{ result.test.total_points }}</td>
-                        <td><a href="{% url 'core:answers' result.user.id result.test.id %}">Ответы</a></td>
+                        <td><a href="{% url 'core:answer_list' result.user.id result.test.id %}">Ответы</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

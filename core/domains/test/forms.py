@@ -31,6 +31,56 @@ class TestEditForm(ModelForm):
         fields = ['title', 'description']
 
 
+class CreateTestForm(BaseFormSet):
+    def __init__(self, *args, **kwargs):
+        super().__init__()
+        data = kwargs.get('data', {})
+
+        if data:
+            self.test = TestEditForm(json.loads(data.get('test', "{}")))
+            self.questions = {}
+            if 'questions' in data:
+                question_set = json.loads(data.get('questions'))
+
+                if question_set['hidden-question']:
+                    del question_set['hidden-question']
+
+                forms_id = map(lambda x: x.split('_')[1], question_set.keys())
+
+                for form_id, form_data in question_set.items:
+                    id = form_id.split('_')[1]
+                    self.questions[form_id] = TextQuestionForm(form_data)
+        else:
+            self.test = TestEditForm()
+            self.question_hidden = TextQuestionForm()
+            self.question_0 = TextQuestionForm()
+
+    def is_valid(self):
+        result = True
+        if not self.test.is_valid():
+            result = False
+            self.errors['test'] = self.test.errors
+
+        if not self._is_valid_set(self.questions, 'questions'):
+            result = False
+            self.errors['questions'] = self.questions.errors
+
+        return result
+
+    def save(self):
+        for value in self.questions.values():
+            question = value.save(commit=False)
+            question.test = self.test.instance
+            question.save()
+            value.save_m2m()
+
+        if self.test.has_changed():
+            test = self.test.save()
+        else:
+            test = self.test.instance
+
+        return test
+
 
 class EditTestForm(BaseFormSet):
 
@@ -48,6 +98,9 @@ class EditTestForm(BaseFormSet):
 
             if 'questions' in data:
                 question_set = json.loads(data.get('questions'))
+
+                if question_set['hidden-question']:
+                    del question_set['hidden-question']
 
                 forms_id = map(lambda x: x.split('_')[1], question_set.keys())
 
@@ -74,7 +127,6 @@ class EditTestForm(BaseFormSet):
 
             self.question_hidden = TextQuestionForm()
             self.question_0 = TextQuestionForm()
-
 
     def is_valid(self):
         result = True

@@ -10,6 +10,7 @@ from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView, 
 
 from core.base import AjaxFormView
 from core.domains.article.models import Article
+from core.domains.question.models import Answer
 from core.domains.test.forms import EditTestForm
 from core.domains.test.gateways import TestGateway
 from core.patterns.print import XLSPrinter as PrinterWeb
@@ -24,7 +25,7 @@ from django.http import JsonResponse
 
 
 from core.domains.test.models import Test, TestResult
-from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm
+from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm, CreateTestForm
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -83,6 +84,16 @@ class TestResultsView(LoginRequiredMixin, ListView):
         return TestResult.objects.filter(user=student).all()
 
 
+class AnswerListView(LoginRequiredMixin, ListView):
+    model = Answer
+    template_name = 'answer/answers.html'
+
+    def get_queryset(self):
+        student = User.objects.get(pk=self.kwargs.get('student_id'))
+        test = Test.objects.get(pk=self.kwargs.get('test_id'))
+        return Answer.objects.filter(user=student, test=test).all()
+
+
 class TestView(LoginRequiredMixin, DetailView):
     model = Test
     template_name = 'test/test.html'
@@ -130,8 +141,9 @@ class TestCreateView(CreateView):
         return HttpResponseRedirect(self.success_url)
 
 
-class TestCreatePlainView(TemplateView):
+class TestCreatePlainView(LoginRequiredMixin, AjaxFormView):
     template_name = 'test/test_create.html'
+    form_class = CreateTestForm
 
 
 

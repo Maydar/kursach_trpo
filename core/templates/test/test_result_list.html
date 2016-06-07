@@ -4,7 +4,7 @@
 
     <div class="container">
 
-        {% include 'components/actions.html' %}
+        {% include 'components/actions.html' with print=True %}
 
         <table class="test-table u-full-width">
             <thead>
@@ -21,7 +21,7 @@
                         <td>{{ result.test.title }}</td>
                         <td>{{ result.test.creation_date }}</td>
                         <td>{{ result.points }}/{{ result.test.total_points }}</td>
-                        <td><a href="{% url 'core:answers' result.user.id result.test.id %}">Ответы</a></td>
+                        <td><a href="{% url 'core:answer_list' result.user.id result.test.id %}">Ответы</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

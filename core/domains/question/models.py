@@ -29,4 +29,5 @@ class AudioQuestion(Question):
 class Answer(models.Model):
     user = models.ForeignKey(User, verbose_name="Ученик")
     question = models.ForeignKey(Question, verbose_name="Вопрос")
+    test = models.ForeignKey(Test, verbose_name="Тест")
     content = models.TextField("Ответ")

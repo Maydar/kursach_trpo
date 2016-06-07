@@ -3,23 +3,41 @@
 {% block content %}
     <div class="container">
         <h2>Создание теста</h2>
-        <form class="row test-edit" method="post" action="{% url 'core:test_create'  %}">
-            {% csrf_token %}
-            <div class="form__line">
-                <label for="id_title">Название</label>
-                <input type="text" name="title"  id="id_title">
-            </div>
+        <div id="id-question">
+            <form class="row test-edit" method="post" action="{% url 'core:test_create'  %}" id="test">
+                {% csrf_token %}
+                <div class="form__line">
+                    <label for="id_title">Название</label>
+                    <input type="text" name="title"  id="id_title">
+                </div>
 
-            <div class="form__line">
-                <label for="id_desc">Описание</label>
-                <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area"></textarea>
-            </div>
+                <div class="form__line">
+                    <label for="id_desc">Описание</label>
+                    <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area"></textarea>
+                </div>
 
-            <input class="button button-primary test-edit__save" type="submit" value="Добавить">
-        </form>
+                <input class="button button-primary test-edit__save" type="submit" value="Добавить">
+            </form>
+
+            {% include 'components/edit/question_edit.html' with question=form.question_0 id='question_0' %}
+         </div>
+
+        <div class="message_success hidden">
+            <h3>Успех!</h3>
+            <p>Тест успешно добавлен.</p>
+            <p><a href="{% url 'core:test_list' %}" class="button button-primary">К списку тестов</a>
+            </p>
+        </div>
+        <div class="message_success-delete hidden">
+            <h3>Успех!</h3>
+            <p>Статья успешно удалена.</p>
+            <p><a href="{% url 'core:articles_by_user' request.user.id %}" class="button button-primary">К списку статей</a>
+            </p>
+        </div>
+        {% include 'components/edit/question_edit.html' with question=form.hidden_question id='hidden-question' hidden=True %}
     </div>
 {% endblock %}
 
 {% block requirejsconfig %}
-    {% include 'components/js.html' with name='test' %}
+    {% include 'components/js.html' with name='testCreate' %}
 {% endblock %}

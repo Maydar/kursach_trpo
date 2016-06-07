@@ -5,9 +5,11 @@
             <a href="{% url 'core:print_xlsx' %}" class="link_test">Распечатать результат</a>
         </div>
     {% endif %}
-
-{#    <div class="actions__item action_item-add">#}
-{#        <i class="icon_action icon_plus"></i>#}
-{#        <a href="{% url 'core:test_create' %}" class="link_create">Создать тест</a>#}
-{#    </div>#}
+    
+    {% if create_test %}
+        <div class="actions__item action_item-add">
+            <i class="icon_action icon_plus"></i>
+            <a href="{% url 'core:test_create' %}" class="link_create">Создать тест</a>
+        </div>
+    {% endif %}
 </div>

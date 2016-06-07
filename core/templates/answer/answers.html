@@ -1,0 +1,15 @@
+{% extends 'layout/main.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Ответы ученика</h2>
+
+        {% for answer in answer_list %}
+            <div class="answer-body">
+                <h4>{{ answer.question.title }}</h4>
+                <p>{{ answer.content }}</p>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}
