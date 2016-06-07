@@ -1,6 +1,6 @@
 import json
 
-from django.forms import ModelForm, Form
+from django.forms import ModelForm, Form, forms
 
 from core.domains.question.forms import  TextQuestionForm
 from core.domains.question.models import Question, TextQuestion

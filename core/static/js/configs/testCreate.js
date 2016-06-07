@@ -9,6 +9,11 @@ require(['./config'], () => {
               hideFormError(e.target);
             });
             
+            
+            $('.js-question-save').click((e) => {
+               e.preventDefault(); 
+            });
+            
             $addQuestion.click((e) => {
                 e.preventDefault();
                 let $form = $('#hidden-question')
@@ -23,22 +28,21 @@ require(['./config'], () => {
             
             test.selector.submit((e) => {
                 e.preventDefault();
-                console.log(test.serialize($));
-                //  $.ajax({
-               //     url: test.selector.attr('action'),
-               //     method: 'POST',
-               //     data: test.serialize($),
-               //     dataType: 'json',
-               //
-               //     success: (response) => {
-               //         if (response.status === 'OK') {
-               //             $form.hide();
-               //             $('.message_success').show();
-               //         } else {
-               //             showFormErrors(test.selector, response.message);
-               //         }
-               //     }
-               // });
+                $.ajax({
+                   url: test.selector.attr('action'),
+                   method: 'POST',
+                   data: test.serialize($),
+                   dataType: 'json',
+
+                   success: (response) => {
+                       if (response.status === 'OK') {
+                           $form.hide();
+                           $('.message_success').show();
+                       } else {
+                           showFormErrors(test.selector, response.message);
+                       }
+                   }
+               });
             });
         });
 });

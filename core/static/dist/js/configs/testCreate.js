@@ -10,6 +10,10 @@ require(['./config'], function () {
             hideFormError(e.target);
         });
 
+        $('.js-question-save').click(function (e) {
+            e.preventDefault();
+        });
+
         $addQuestion.click(function (e) {
             e.preventDefault();
             var $form = $('#hidden-question').clone(true, true).attr('id', getNextFormId('.question', 'question')).show();
@@ -21,22 +25,21 @@ require(['./config'], function () {
 
         test.selector.submit(function (e) {
             e.preventDefault();
-            console.log(test.serialize($));
-            //  $.ajax({
-            //     url: test.selector.attr('action'),
-            //     method: 'POST',
-            //     data: test.serialize($),
-            //     dataType: 'json',
-            //
-            //     success: (response) => {
-            //         if (response.status === 'OK') {
-            //             $form.hide();
-            //             $('.message_success').show();
-            //         } else {
-            //             showFormErrors(test.selector, response.message);
-            //         }
-            //     }
-            // });
+            $.ajax({
+                url: test.selector.attr('action'),
+                method: 'POST',
+                data: test.serialize($),
+                dataType: 'json',
+
+                success: function success(response) {
+                    if (response.status === 'OK') {
+                        $form.hide();
+                        $('.message_success').show();
+                    } else {
+                        showFormErrors(test.selector, response.message);
+                    }
+                }
+            });
         });
     });
 });

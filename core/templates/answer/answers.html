@@ -6,7 +6,9 @@
 
         {% for answer in answer_list %}
             <div class="answer-body">
-                <h4>{{ answer.question.title }}</h4>
+                <h4>Название вопроса: {{ answer.question.title }}</h4>
+
+                <h6>Ответ:</h6>
                 <p>{{ answer.content }}</p>
             </div>
         {% endfor %}

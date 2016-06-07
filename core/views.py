@@ -4,6 +4,7 @@ from io import BytesIO
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse_lazy
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.utils import timezone
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView
 from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView, CreateView
@@ -18,7 +19,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import JsonResponse
 
 # Create your views here.
@@ -99,10 +100,26 @@ class TestView(LoginRequiredMixin, DetailView):
     template_name = 'test/test.html'
 
 
+@login_required()
+def test_search(request):
+    if request.method == 'POST':
+        test = Test.objects.filter(title=request.POST.get('title')).first()
+        test_results = TestResult.objects.filter(test=test).all()
+        return render_to_response('test/test_result_all.html', {'testresult_list': test_results},
+                                  context_instance=RequestContext(request))
+    elif request.method == 'GET':
+        raise Http404
 
-class TestSearchView(LoginRequiredMixin, AjaxFormView):
-    pass
 
+@login_required()
+def student_search(request):
+    if request.method == 'POST':
+        print(request.POST.get('username'))
+        users = User.objects.filter(username=request.POST.get('username')).all()
+        return render_to_response('student/student_list.html', {'user_list': users},
+                                  context_instance=RequestContext(request))
+    elif request.method == 'GET':
+        raise Http404
 
 class StudentListView(ListView):
     model = User
