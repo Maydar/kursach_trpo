@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 
+# @brief deprecated
 class Test(models.Model):
     user = models.ForeignKey(User, verbose_name="Автор теста")
     title = models.CharField("Название теста", max_length=255)
@@ -24,6 +25,7 @@ class Test(models.Model):
     class Meta:
         verbose_name = "Тест"
         verbose_name_plural = "Тесты"
+
 
 
 class TestResult(models.Model):

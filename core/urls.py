@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from core import views
 from core.views import AuthView, ProfileView, TestListView, TestView, LogoutView, TestResultsView, StudentListView, \
-    TestResultsAllView, StudentSearchView, TestEditView, TestCreateView, ArticleListView, \
+    TestResultsAllView, StudentSearchView, TestEditView, ArticleListView, \
     ArticleDetailView, ArticleCreateView, ArticleEditView, ArticleDeleteView, TestCreatePlainView, AnswerListView, \
     test_search, student_search
 

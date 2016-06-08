@@ -26,8 +26,22 @@ class AudioQuestion(Question):
         verbose_name_plural = "Аудио вопросы"
 
 
+class AnswerVariant(models.Model):
+    question = models.ForeignKey(Question, verbose_name="Вопрос")
+    text = models.CharField("Текст варианта", max_length=255)
+    points = models.IntegerField("Количество баллов")
+
+    class Meta:
+        verbose_name = "Вариант ответа"
+        verbose_name_plural = "Варианты ответа"
+
+
 class Answer(models.Model):
     user = models.ForeignKey(User, verbose_name="Ученик")
     question = models.ForeignKey(Question, verbose_name="Вопрос")
     test = models.ForeignKey(Test, verbose_name="Тест")
-    content = models.TextField("Ответ")
+    answer_variant = models.ForeignKey(AnswerVariant, verbose_name="Вариант ответа")
+
+    class Meta:
+        verbose_name = "Ответ"
+        verbose_name_plural = "Ответы"
