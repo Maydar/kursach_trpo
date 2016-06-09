@@ -4,6 +4,7 @@
 
     <div class="container">
         <div class="search">
+            <h6>Поиск по ученику</h6>
             <form action="{% url 'core:student_search' %}" method="post">
                 {% csrf_token %}
                 <input type="text" placeholder="Введите имя студента" class="u-full-width" name="username">

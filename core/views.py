@@ -93,6 +93,10 @@ class TestResultsView(LoginRequiredMixin, ListView):
         student = User.objects.get(pk=self.kwargs.get('student_id'))
         return TestResult.objects.filter(user=student).all()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['student'] = User.objects.get(pk=self.kwargs.get('student_id'))
+        return context
 
 class AnswerListView(LoginRequiredMixin, TemplateView):
 
@@ -216,7 +220,7 @@ def update_test(request):
     elif request.method == "GET":
 
         return render_to_response('test/test_edit.html', {
-            'test': TestGateway.get_test_by_id(request.GET.get("test_id"))
+            'test': TestGateway.get_test_by_id(request.GET.get("test_id")),
             'question_0': TextQuestionForm(),
             'question_hidden': TextQuestionForm(),
         }, context_instance=RequestContext(request))
