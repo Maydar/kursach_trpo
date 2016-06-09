@@ -1,36 +1,32 @@
 import json
-from io import StringIO
 from io import BytesIO
 
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect, Http404
+from django.http import JsonResponse
+from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.utils import timezone
 from django.views.generic import TemplateView, RedirectView, ListView, DetailView
-from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView, CreateView
+from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView
 
 from core.base import AjaxFormView
 from core.domains.article.models import Article
 from core.domains.question.gateways import AnswerGateway
-from core.domains.question.models import Answer
-from core.domains.test.forms import EditTestForm, TestEditForm
-from core.domains.test.gateways import UserGateway
-from core.domains.test.records import TestRecord
+from core.domains.test.forms import EditTestForm
+from core.domains.test.gateways import UserGateway, TestGateway
 from core.patterns.domains import TestDomain
-from core.patterns.print import Printer, XLSPrinter, ProxyXLSPrinter
-from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render, render_to_response
-from django.http import JsonResponse
+from core.patterns.print import ProxyXLSPrinter
 
 # Create your views here.
 
 
 from core.domains.test.models import Test, TestResult
-from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm, CreateTestForm, TextQuestionForm
+from core.forms import UserLoginForm, ArticleCreateForm, CreateTestForm, TextQuestionForm
+from core.patterns.transaction import TestTransactionScript
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -107,6 +103,7 @@ class AnswerListView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context['answer_list'] = answers_list
         return context
+
 
 class TestView(LoginRequiredMixin, DetailView):
     model = Test
@@ -199,7 +196,30 @@ def create_test(request):
             'question_hidden': TextQuestionForm(),
         }, context_instance=RequestContext(request))
 
+@login_required()
+def update_test(request):
+    test = {}
+    questions = {}
 
+    if request.method == "POST":
+        data = request.POST.get('data')
+        if data:
+            data = json.loads(data)
+            data_test = data.get("test", {})
+            data_test['user'] = request.user.id
+            errors = TestTransactionScript().change_test(data_test)
+
+            if errors:
+                return JsonResponse({'status': 'FAILED', 'message': errors })
+
+            return JsonResponse({'status': 'OK'})
+    elif request.method == "GET":
+
+        return render_to_response('test/test_edit.html', {
+            'test': TestGateway.get_test_by_id(request.GET.get("test_id"))
+            'question_0': TextQuestionForm(),
+            'question_hidden': TextQuestionForm(),
+        }, context_instance=RequestContext(request))
 
 
 class ArticleDetailView(DetailView):

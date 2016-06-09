@@ -3,7 +3,7 @@ import json
 from django.forms import ModelForm, Form, forms
 
 from core.domains.question.forms import  TextQuestionForm
-from core.domains.question.models import Question, TextQuestion
+from core.domains.question.models import Question, TextQuestion, Answer
 from core.domains.test.models import Test
 from core.base import BaseFormSet
 

@@ -10,7 +10,6 @@ class StudentDomain:
     def get_all_students():
         return User.objects.filter(groups__name__in=['student']).all()
 
-
 class TestDomain:
     test = None
 

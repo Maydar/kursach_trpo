@@ -4,15 +4,13 @@ from core.base import Connection
 from core.domains.test.models import Test, TestResult
 
 
+class TestGateway:
+
+    @staticmethod
+    def get_test_by_id(self, id):
+        return TestResult.objects.raw("SELECT * FROM {0} WHERE id = '{1}'".format('core_test', id))
 
 class TestResultGateway:
-    TABLE_NAME = 'core_testresult',
-    FIELDS = {
-        'id',
-        'test_id',
-        'user_id',
-        'points'
-    }
 
     @staticmethod
     def get_results_by_user_id(self, user_id):
