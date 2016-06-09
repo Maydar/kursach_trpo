@@ -16,24 +16,29 @@ class TestResultGateway:
 
     @staticmethod
     def get_results_by_user_id(self, user_id):
-        return TestResult.objects.raw("SELECT * FROM {0} WHERE user_id = {1}".format(self.TABLE_NAME, user_id))
+        return TestResult.objects.raw("SELECT * FROM {0} WHERE user_id = '{1}'".format('core_testresult', user_id))
 
     @staticmethod
     def get_results_by_test_id(self, test_id):
-        return TestResult.objects.raw("SELECT * FROM {0} WHERE test_id = {1}".format(self.TABLE_NAME, test_id))
+        return TestResult.objects.raw("SELECT * FROM {0} WHERE test_id = '{1}'".format('core_testresult', test_id))
 
     @staticmethod
     def get_results_by_username(self, username):
-        user_id = User.objects.raw("SELECT id FROM {0} WHERE username = {1}".format('auth_user', username))
+        user_id = User.objects.raw("SELECT id FROM {0} WHERE username = '{1}'".format('auth_user', username))
         return self.get_results_by_user_id(user_id)
 
     @staticmethod
     def get_results_by_testname(self, testname):
-        test_ids = User.objects.raw("SELECT id FROM {0} WHERE title = {1}".format('core_test', testname))
+        test_ids = User.objects.raw("SELECT id FROM {0} WHERE title = '{1}'".format('core_test', testname))
         return self.get_results_by_test_id(test_ids[0])
 
 
 class UserGateway:
+
+    @staticmethod
+    def get_students_by_name(username):
+        return User.objects.raw("SELECT * FROM {0} WHERE username = '{1}'".format('auth_user', username))
+
     @staticmethod
     def get_all_students():
         c = Connection.get_connection().cursor()

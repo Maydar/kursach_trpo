@@ -15,8 +15,8 @@ class AnswerGateway:
 
     @staticmethod
     def get_answers(user_id, test_id):
-        return Answer.objects.raw("""SELECT * FROM {0} WHERE user_id = {1}
-                                    AND test_id = {2}""".format('core_answer', user_id, test_id))
+        return Answer.objects.raw("""SELECT * FROM {0} WHERE user_id = '{1}'
+                                    AND test_id = '{2}'""".format('core_answer', user_id, test_id))
 
     @staticmethod
     def insert_answer(question_id, user_id, test_id, answer_variant_id):

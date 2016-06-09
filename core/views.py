@@ -116,24 +116,42 @@ class TestView(LoginRequiredMixin, DetailView):
 @login_required()
 def test_search(request):
     if request.method == 'POST':
-        test = Test.objects.filter(title=request.POST.get('title')).first()
+        test = Test.objects.filter(title=request.POST.get('query_text')).first()
         test_results = TestResult.objects.filter(test=test).all()
         return render_to_response('test/test_result_all.html', {'testresult_list': test_results},
                                   context_instance=RequestContext(request))
     elif request.method == 'GET':
-        raise Http404
+        test_results = TestResult.objects.all()
+        return render_to_response('test/test_result_all.html', {'testresult_list': test_results},
+                                  context_instance=RequestContext(request))
 
+@login_required()
+def test_search_all(request):
+    if request.method == 'POST':
+        if request.POST.get('title'):
+            tests = Test.objects.filter(title=request.POST.get('title')).all()
+        else:
+            tests = Test.objects.all()
+        return render_to_response('test/test_list.html', {'test_list': tests},
+                                  context_instance=RequestContext(request))
+    elif request.method == 'GET':
+        tests = Test.objects.all()
+        return render_to_response('test/test_list.html', {'test_list': tests},
+                                  context_instance=RequestContext(request))
 
 @login_required()
 def student_search(request):
     if request.method == 'POST':
-        print(request.POST.get('username'))
-        users = User.objects.filter(username=request.POST.get('username')).all()
+        if request.POST.get('username'):
+            users = UserGateway.get_students_by_name(username=request.POST.get('username'))
+        else:
+            users = UserGateway.get_all_students()
         return render_to_response('student/student_list.html', {'user_list': users},
                                   context_instance=RequestContext(request))
     elif request.method == 'GET':
-        raise Http404
-
+        users = UserGateway.get_all_students()
+        return render_to_response('student/student_list.html', {'user_list': users},
+                                  context_instance=RequestContext(request))
 
 class StudentListView(TemplateView):
     template_name = 'student/student_list.html'
