@@ -35,8 +35,8 @@ class BaseFormSet(object):
         result = True
         empty_keys = list()
 
-        for key, value in forms.iteritems():
-            if not value.is_filled():
+        for key, value in forms.items():
+            if not value.has_changed():
                 empty_keys.append(key)
             elif not value.is_valid():
                 result = False and result

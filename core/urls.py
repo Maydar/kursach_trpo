@@ -2,9 +2,9 @@ from django.conf.urls import url
 
 from core import views
 from core.views import AuthView, ProfileView, TestListView, TestView, LogoutView, TestResultsView, StudentListView, \
-    TestResultsAllView, StudentSearchView, TestEditView, ArticleListView, \
+    TestResultsAllView, TestEditView, ArticleListView, \
     ArticleDetailView, ArticleCreateView, ArticleEditView, ArticleDeleteView, TestCreatePlainView, AnswerListView, \
-    test_search, student_search
+    test_search, student_search, create_test
 
 urlpatterns = [
     url(r'^$', ProfileView.as_view(), name='main'),
@@ -15,7 +15,7 @@ urlpatterns = [
 
     url(r'^test_search/$', test_search, name='test_search'),
     url(r'^test_edit/(?P<pk>\d+)$', TestEditView.as_view(), name='test_edit'),
-    url(r'^test_create/', TestCreatePlainView.as_view(), name='test_create'),
+    url(r'^test/create/', TestCreatePlainView.as_view(), name='test_create'),
 
     url(r'^scores/all/$', TestResultsAllView.as_view(), name='scores_all'),
     url(r'^scores/(?P<student_id>\d+)/$', TestResultsView.as_view(), name='scores'),

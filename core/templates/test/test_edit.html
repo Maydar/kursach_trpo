@@ -34,7 +34,7 @@
             <p><a href="{% url 'core:test_list' %}" class="button button-primary">К списку тестов</a>
             </p>
         </div>
-        {% include 'components/edit/question_edit.html' with question=form.hidden_question id='hidden-question' %}
+        {% include 'components/edit/question_edit.html' with question=form.hidden_question id='hidden-question' hidden=True %}
     </div>
 {% endblock %}
 

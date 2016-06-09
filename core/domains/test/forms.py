@@ -35,19 +35,18 @@ class CreateTestForm(BaseFormSet):
     def __init__(self, *args, **kwargs):
         super().__init__()
         data = kwargs.get('data', {})
+        self.user = kwargs.get('user', None)
 
         if data:
-            self.test = TestEditForm(json.loads(data.get('test', "{}")))
+            data = json.loads(data.get('data', "{}"))
+            self.test = TestEditForm(data.get('test', "{}"))
             self.questions = {}
             if 'questions' in data:
                 question_set = json.loads(data.get('questions'))
 
-                if question_set['hidden-question']:
-                    del question_set['hidden-question']
-
                 forms_id = map(lambda x: x.split('_')[1], question_set.keys())
 
-                for form_id, form_data in question_set.items:
+                for form_id, form_data in question_set.items():
                     id = form_id.split('_')[1]
                     self.questions[form_id] = TextQuestionForm(form_data)
         else:
@@ -68,16 +67,20 @@ class CreateTestForm(BaseFormSet):
         return result
 
     def save(self):
+        if self.test.has_changed():
+            test = self.test.save(commit=False)
+            test.user = self.user
+            test = test.save()
+        else:
+            test = self.test.instance
+
         for value in self.questions.values():
             question = value.save(commit=False)
             question.test = self.test.instance
             question.save()
             value.save_m2m()
 
-        if self.test.has_changed():
-            test = self.test.save()
-        else:
-            test = self.test.instance
+
 
         return test
 
@@ -108,7 +111,9 @@ class EditTestForm(BaseFormSet):
                     if str(question_instance.id) not in forms_id:
                         question_instance.delete()
 
-                for form_id, form_data in question_set.items:
+
+
+                for form_id, form_data in question_set.items():
                     id = form_id.split('_')[1]
 
                     if question_instances.filter(pk=id).exists():
@@ -141,15 +146,18 @@ class EditTestForm(BaseFormSet):
         return result
 
     def save(self):
+        if self.test.has_changed():
+            test = self.test.save(commit=False)
+            test.user = self.user
+            test = test.save()
+        else:
+            test = self.test.instance
+
         for value in self.questions.values():
             question = value.save(commit=False)
             question.test = self.test.instance
             question.save()
             value.save_m2m()
 
-        if self.test.has_changed():
-            test = self.test.save()
-        else:
-            test = self.test.instance
 
-        return test
+        return self.test

@@ -46,15 +46,16 @@ define(['jquery'], function ($, serializeForm) {
         _createClass(Test, [{
             key: 'serialize',
             value: function serialize($) {
-                var result = {};
+                var result = {
+                    questions: {}
+                };
                 for (var i = 0; i < this.questions.length; i++) {
-                    var id = $(this.questions[i]).attr('id');
-                    result[id] = this.questions[i].serialize($);
+                    var id = this.questions[i].selector.attr('id');
+                    result.questions[id] = this.questions[i].serialize($);
                 }
 
                 var dataId = this.selector.attr('id');
                 result[dataId] = _serializeFrom(this.selector);
-
                 return JSON.stringify(result);
             }
         }, {

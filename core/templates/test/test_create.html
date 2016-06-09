@@ -8,18 +8,19 @@
                 {% csrf_token %}
                 <div class="form__line">
                     <label for="id_title">Название</label>
-                    <input type="text" name="title"  id="id_title">
+                    <input type="text" name="title"  id="id_title" class="js-input">
                 </div>
 
                 <div class="form__line">
                     <label for="id_desc">Описание</label>
-                    <textarea name="title" id="id_desc" class="u-full-width test-edit__text-area"></textarea>
+                    <textarea name="description" id="id_desc" class="u-full-width test-edit__text-area js-input"></textarea>
                 </div>
 
-                <input class="button button-primary test-edit__save" type="submit" value="Добавить">
+                <input class="button button-primary test-edit__save" type="submit" value="Добавить" disabled>
             </form>
 
             {% include 'components/edit/question_edit.html' with question=form.question_0 id='question_0' %}
+            <input type="submit" class="button-primary js-question-new" value="Добавить вопрос">
          </div>
 
         <div class="message_success hidden">
@@ -34,7 +35,7 @@
             <p><a href="{% url 'core:articles_by_user' request.user.id %}" class="button button-primary">К списку статей</a>
             </p>
         </div>
-        {% include 'components/edit/question_edit.html' with question=form.hidden_question id='hidden-question' hidden=True %}
+        {% include 'components/edit/question_edit.html' with question=form.question_hidden id='hidden-question' hidden=True %}
     </div>
 {% endblock %}
 

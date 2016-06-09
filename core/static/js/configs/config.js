@@ -66,6 +66,18 @@ function hideFormError(input) {
         .val('')
 }
 
+function getNextFormId(formSelector, prefix) {
+    var forms = $(formSelector);
+    var index = 0;
+    for (var i = 0; i < forms.length; i++) {
+        var formNumber = Number($(forms[i]).attr('id').split('_')[1]);
+        formNumber = isNaN(formNumber) ? 0 : formNumber;
+        index = Math.max(formNumber, index);
+    }
+    index += 1;
+    return prefix + '_' + index;
+}
+
 require(['jquery', 'cookies'], ($, Cookies) => {
     $.ajaxSetup({
         headers: { "X-CSRFToken": Cookies.get("csrftoken") }

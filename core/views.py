@@ -1,3 +1,4 @@
+import json
 from io import StringIO
 from io import BytesIO
 
@@ -13,8 +14,10 @@ from core.base import AjaxFormView
 from core.domains.article.models import Article
 from core.domains.question.gateways import AnswerGateway
 from core.domains.question.models import Answer
-from core.domains.test.forms import EditTestForm
+from core.domains.test.forms import EditTestForm, TestEditForm
 from core.domains.test.gateways import UserGateway
+from core.domains.test.records import TestRecord
+from core.patterns.domains import TestDomain
 from core.patterns.print import Printer, XLSPrinter, ProxyXLSPrinter
 from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -27,7 +30,7 @@ from django.http import JsonResponse
 
 
 from core.domains.test.models import Test, TestResult
-from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm, CreateTestForm
+from core.forms import UserLoginForm, ArticleEditForm, ArticleCreateForm, CreateTestForm, TextQuestionForm
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -57,6 +60,15 @@ class AuthView(FormView):
     def form_invalid(self, form):
         return super(AuthView, self).form_invalid(form)
 
+class TestCreatePlainView(LoginRequiredMixin, AjaxFormView):
+    template_name = 'test/test_create.html'
+    form_class = CreateTestForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+        return kwargs
 
 class LogoutView(RedirectView):
     url = '/'
@@ -140,25 +152,36 @@ class TestEditView(LoginRequiredMixin, AjaxFormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
         kwargs['test_instance'] = Test.objects.get(pk=self.kwargs.get('pk'))
         return kwargs
 
 
+@login_required()
+def create_test(request):
+    test = {}
+    questions = {}
 
-class TestCreatePlainView(LoginRequiredMixin, AjaxFormView):
-    template_name = 'test/test_create.html'
-    form_class = CreateTestForm
+    if request.method == "POST":
+        data = request.POST.get('data')
+        if data:
+            data = json.loads(data)
+            data_test = data.get("test", {})
+            data_test['user'] = request.user.id
+            errors = TestDomain().create_test(data_test)
+
+            if errors:
+                return JsonResponse({'status': 'FAILED', 'message': errors })
+
+            return JsonResponse({'status': 'OK'})
+    elif request.method == "GET":
+        return render_to_response('test/test_create.html', {
+            'question_0': TextQuestionForm(),
+            'question_hidden': TextQuestionForm(),
+        }, context_instance=RequestContext(request))
 
 
-class TestCreateView:
-
-    @staticmethod
-    @login_required()
-    def create_test(request):
-        if request.POST:
-            pass
-        elif request.GET:
-            return render_to_response('test/test_create.html', {}, context_instance=RequestContext(request))
 
 
 class ArticleDetailView(DetailView):

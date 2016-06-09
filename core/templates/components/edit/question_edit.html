@@ -9,6 +9,11 @@
         {% include 'components/edit/answer_edit.html' %}
     </div>
 
-    <input type="submit" class="button-primary js-question-save" value="Сохранить">
-    <input type="submit" class="button test-edit__delete" value="Удалить">
+    {% if edit %}
+        <input type="submit" class="button-primary js-question-save" value="Сохранить">
+        <input type="submit" class="button test-edit__delete" value="Удалить">
+    {% else %}
+        <input type="submit" class="button js-remove" value="Удалить">
+    {% endif %}
+
 </form>
