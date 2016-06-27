@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-from core.domains.test.models import Test
+from core.model.test.models import Test
 
 
 class Question(models.Model):

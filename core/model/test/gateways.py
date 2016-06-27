@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 
 from core.base import Connection
-from core.domains.test.models import Test, TestResult
+from core.model.test.models import Test, TestResult
 
 
 class TestGateway:

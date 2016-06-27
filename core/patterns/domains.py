@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from core.domains.test.records import TestRecord, QuestionRecord, AnswerRecord
+from core.model.test.records import TestRecord, QuestionRecord, AnswerRecord
 
 
 class StudentDomain:
@@ -9,6 +9,7 @@ class StudentDomain:
     @staticmethod
     def get_all_students():
         return User.objects.filter(groups__name__in=['student']).all()
+
 
 class TestDomain:
     test = None

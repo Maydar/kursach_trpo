@@ -3,7 +3,7 @@ import json
 from django.core.exceptions import PermissionDenied
 from django.forms import ModelForm, Form
 
-from core.domains.article.models import Article
+from core.model.article.models import Article
 
 
 class ArticleCreateForm(ModelForm):

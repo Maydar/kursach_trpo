@@ -1,6 +1,6 @@
 from django.utils import timezone
 
-from core.domains.test.records import TestRecord
+from core.model.test.records import TestRecord
 
 
 class TestTransactionScript:
@@ -44,6 +44,7 @@ class TestTransactionScript:
             errors['description'] = {
                 "message": "Обязательноe поле"
             }
+
         if self.test is None and not errors:
             self.test = TestRecord(user_id=test_data['user'],
                                    title=test_data['title'],

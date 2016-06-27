@@ -1,3 +1,3 @@
-from core.domains.article.models import *
-from core.domains.question.models import *
-from core.domains.test.models import *
+from core.model.article.models import *
+from core.model.question.models import *
+from core.model.test.models import *

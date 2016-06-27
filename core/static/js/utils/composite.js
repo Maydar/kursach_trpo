@@ -8,11 +8,11 @@ define(['jquery'], function ($, serializeForm) {
         }
 
         serialize($) {
-            //$ajax
+            //abstract
         }
         
         add() {
-            //
+            //abstract
         }
     }
     

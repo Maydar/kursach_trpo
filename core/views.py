@@ -14,17 +14,17 @@ from django.views.generic import TemplateView, RedirectView, ListView, DetailVie
 from django.views.generic.edit import BaseUpdateView, BaseDeleteView, FormView
 
 from core.base import AjaxFormView
-from core.domains.article.models import Article
-from core.domains.question.gateways import AnswerGateway
-from core.domains.test.forms import EditTestForm
-from core.domains.test.gateways import UserGateway, TestGateway
-from core.patterns.domains import TestDomain
+from core.model.article.models import Article
+from core.model.question.gateways import AnswerGateway
+from core.model.test.forms import EditTestForm
+from core.model.test.gateways import UserGateway, TestGateway
+from core.patterns.domains import TestDomain, QuestionDomain
 from core.patterns.print import ProxyXLSPrinter
 
 # Create your views here.
 
 
-from core.domains.test.models import Test, TestResult
+from core.model.test.models import Test, TestResult
 from core.forms import UserLoginForm, ArticleCreateForm, CreateTestForm, TextQuestionForm
 from core.patterns.transaction import TestTransactionScript
 
@@ -84,6 +84,16 @@ class TestResultsAllView(LoginRequiredMixin, ListView):
     model = TestResult
     template_name = 'test/test_result_all.html'
 
+class TestEditView(LoginRequiredMixin, AjaxFormView):
+    template_name = 'test/test_edit.html'
+    form_class = EditTestForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        kwargs['user'] = self.request.user
+        kwargs['test_instance'] = Test.objects.get(pk=self.kwargs.get('pk'))
+        return kwargs
 
 class TestResultsView(LoginRequiredMixin, ListView):
     model = TestResult
@@ -97,6 +107,7 @@ class TestResultsView(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['student'] = User.objects.get(pk=self.kwargs.get('student_id'))
         return context
+
 
 class AnswerListView(LoginRequiredMixin, TemplateView):
 
@@ -165,22 +176,11 @@ class StudentListView(TemplateView):
 
 
 
-class TestEditView(LoginRequiredMixin, AjaxFormView):
-    template_name = 'test/test_edit.html'
-    form_class = EditTestForm
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-
-        kwargs['user'] = self.request.user
-        kwargs['test_instance'] = Test.objects.get(pk=self.kwargs.get('pk'))
-        return kwargs
-
-
 @login_required()
-def create_test(request):
+def create_test(request,):
     test = {}
     questions = {}
+    errors = {}
 
     if request.method == "POST":
         data = request.POST.get('data')
@@ -188,7 +188,12 @@ def create_test(request):
             data = json.loads(data)
             data_test = data.get("test", {})
             data_test['user'] = request.user.id
-            errors = TestDomain().create_test(data_test)
+            errors['test'] = TestDomain().create_test(data_test)
+
+            questions = data.get("questions", {})
+            if questions:
+                for question_id, form in questions.items():
+                    errors['question'] = QuestionDomain().create_question(form)
 
             if errors:
                 return JsonResponse({'status': 'FAILED', 'message': errors })

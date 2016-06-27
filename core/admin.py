@@ -3,9 +3,9 @@ from django.contrib import admin
 # Register your models here.
 from django.contrib.admin import ModelAdmin
 
-from core.domains.article.models import Article
-from core.domains.question.models import Question, Answer, TextQuestion, AudioQuestion, AnswerVariant
-from core.domains.test.models import Test, TestResult
+from core.model.article.models import Article
+from core.model.question.models import Question, Answer, TextQuestion, AudioQuestion, AnswerVariant
+from core.model.test.models import Test, TestResult
 
 
 class TestAdmin(ModelAdmin):

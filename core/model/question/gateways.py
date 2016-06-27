@@ -1,5 +1,5 @@
 from core.base import Connection
-from core.domains.question.models import TextQuestion, AudioQuestion, Answer
+from core.model.question.models import TextQuestion, AudioQuestion, Answer
 
 
 

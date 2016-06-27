@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from core.domains.question.models import Question, TextQuestion
+from core.model.question.models import Question, TextQuestion
 
 
 class TextQuestionForm(ModelForm):

@@ -19,12 +19,12 @@ define(['jquery'], function ($, serializeForm) {
         _createClass(Form, [{
             key: 'serialize',
             value: function serialize($) {
-                //$ajax
+                //abstract
             }
         }, {
             key: 'add',
             value: function add() {
-                //
+                //abstract
             }
         }]);
 
